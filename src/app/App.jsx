@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import bear from '../assets/images/bear.jpg';
-import cat from '../assets/images/cat.png';
+import bear from 'images/bear.jpg'; // Use alias
+import cat from 'images/cat.png';
 
-
+// webpack
+//webpack production
+// or npm start -- npm start will NOT compoile files into public folder! you need to webpack for that.
 const hello = () => {
 	return (
 		<div className="container">

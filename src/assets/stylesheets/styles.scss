@@ -4,6 +4,10 @@ $brand-purple: rgb(135,140,223);
 
 $merriweather: "Merriweather", sans-serif;
 
+.test {
+	display: flex;
+}
+
 body {
 	background-color: $brand-purple;
 	font-family: $merriweather;
