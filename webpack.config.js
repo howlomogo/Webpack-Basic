@@ -1,6 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin"); // "uglify" our output js code
+const OptimizeCSSAssets = require('optimize-css-assets-webpack-plugin'); //require webpack plugin
 
 let config = {
 	entry: './src/index.js',
@@ -35,6 +37,13 @@ let config = {
 		open: true // open default browser while launching
 	},
 	devtool: 'eval-source-map' // enable devtool for better debug experience
+}
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports.plugins.push(
+    new webpack.optimize.UglifyJsPlugin(), // call the uglify plugin
+    new OptimizeCSSAssets() // call the css optimizer (minification)
+  );
 }
 
 module.exports = config;

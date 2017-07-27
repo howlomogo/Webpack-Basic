@@ -2,7 +2,7 @@ require('./styles.scss');
 
 const dress = () => {
 	document.write('I like your dress');
-}
+} 
 
 //When you only have one parameter, the opening parenthesis are optional:
 // parameter => { statements }
@@ -31,6 +31,7 @@ const product3 = (type, name) => "Foo"
 dress();
 
 product('veg', 'carrot');
+
 
 console.log(product2('veg', 'carrot'));
 console.log(product3('veg', 'carrot'));
