@@ -2,35 +2,50 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin"); // "uglify" our output js code
-const OptimizeCSSAssets = require('optimize-css-assets-webpack-plugin'); //require webpack plugin
+
+const extractLess = new ExtractTextWebpackPlugin({
+		filename: "css/styles.css"
+});
 
 let config = {
 	entry: './src/index.js',
 	output: {
 		// Webpack needs an absolute path to work properly. We can accomplish this by using resolve
-		path: path.resolve(__dirname, './public'),
+		path: path.resolve(__dirname, './_sites'),
 		filename: 'output.js'
 	},
 	resolve: { // options change how modules are resolved
-		extensions: ['.js', '.jsx', '.json', '.scss', '.css', '.jpeg', '.jpg', '.gif', '.png'], //auto resolved certain extensions
+		extensions: ['.js', '.jsx', '.json', '.less', '.css', '.jpeg', '.jpg', '.gif', '.png'], //auto resolved certain extensions
 		alias: { // create alias
 			images: path.resolve(__dirname, 'src/assets/images') // src/assets/images alias
 		}
 	},
 	module: {
 		rules: [
+			// {
+			// 	// Loader for Bootstrap glyph files
+			// 	test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+			// 	loader: 'url-loader?limit=100000'
+			// },
 			{
 				test: /\.js$/, // files ending in .js
 				exclude: /node_modules/, //exclude the node_modules directory
 				loader: "babel-loader" // use this (babel-core) loader
 			},
 			{
-				test: /\.scss$/, // files ending in .scss
-				use: ['css-hot-loader'].concat(ExtractTextWebpackPlugin.extract({ // hot loader 
-					fallback: 'style-loader', // fallback for any CSS not extracted
-					use: ['css-loader', 'sass-loader', 'postcss-loader'], // use these loaders postcss loader - autoprefixer
-				})),
-			},
+				test: /\.less$/,
+				use: extractLess.extract({
+					use: [{
+						loader: "css-loader",
+						options: {
+				         minimize: true
+				    }
+					}, {
+						loader: "less-loader"
+					}],
+					fallback: "style-loader"
+				})
+      },
 			{
 				test: /\.jsx$/, // all files ending in .jsx
 				loader: 'babel-loader', // use the babel-loader for all .jsx files
@@ -62,7 +77,9 @@ let config = {
 		]
 	},
 	plugins: [
-		new ExtractTextWebpackPlugin('styles.css') // call the ExtractTextWebpackPlugin constrctor and name the css file
+		extractLess
+
+		// new ExtractTextWebpackPlugin('styles.css') // call the ExtractTextWebpackPlugin constrctor and name the css file
 	],
 	devServer: {
 		contentBase: path.resolve(__dirname, './public'), // A directory or URL where to serve the html from

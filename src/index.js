@@ -1,4 +1,4 @@
-require('./assets/stylesheets/styles.scss');
+require('./assets/stylesheets/styles.less');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
